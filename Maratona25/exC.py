@@ -4,7 +4,7 @@ n = input("")
 listn = list(map(int, n.split()))
 
 count = 0
-
+total = 0
 for i in range(qntd, -1, -1):
     if listn[i] == True:
         total = total + 2**count
@@ -20,7 +20,7 @@ while True:
         else:
             ref = total
             total = total*2 + 1
-            total (total*2 + 1)^total
+            total = (total*2 + 1)^total
     else:
         break
 
