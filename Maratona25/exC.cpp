@@ -22,18 +22,36 @@ int main(){
     }
     
     //Agora que temos os números em um vetor, podemos iterar sobre ele
-    int total;
-    int count;
+    int total = 0;
+    int count = 0;
     for (int i = qntd; i>=0; i--){
-        if (phrase[i]){
-            total = total + pow(2, count);
+        if (phrase[i]==1){
+            total += pow(2, count);
+        }
+        count++;
+    }
+
+    //Agora temos o valor de binário em decimal, vamos realizar o processo restante
+    int contador = 0;
+    int ref;
+
+    //Loop que verifica as duas situações específicas do problema C
+    while (true){
+        if(total!=1){
+            if(total%2==0){
+                total = total /2;
+                contador++;
+            }else{
+                ref = total;
+                total = total*2 + 1;
+                total = (total*2 + 1)^total;
+            }
+        }else{
+            break;
         }
     }
 
-    /**for(auto character : frase){
-        cout << character;
-        cout << endl;
-    }**/
-
+    printf("%d", contador);
+    
     return 0;
 }
