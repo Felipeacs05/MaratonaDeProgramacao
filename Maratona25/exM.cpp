@@ -13,7 +13,30 @@ typedef struct no{
     struct no *right;
 }no;
 
+no *insert(no *root, int value){
+    if(root=NULL){
+        no *new = (no*) malloc(sizeof(no));
+        new->content = value;
+        new->left = NULL;
+        new->right = NULL;
+        new->height = 0;
+        return new;
+    }else{
+        if(value<root->content){
+            root->left = inser(root->left, value);
+        }
+        if(value > root->content){
+            root->right = insert(root->right, value);
+        }
+    }
+
+    root = balance(root);
+    return root;
+}
+
 int main(){
+    no *root = NULL;
+
     string f_line;
     getline(cin, f_line);
 
@@ -41,7 +64,7 @@ int main(){
 
     cout<<n<<" "<<k<<endl;
     for(int i=0; i<s_numbers.size();i++){
-        cout<<s_numbers[i]<<" ";
+        insert(no, s_numbers[i]);
     }
     vector<int> numbers;
     return 0;
