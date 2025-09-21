@@ -11,24 +11,124 @@ typedef struct no{
     int content;
     struct no *left;
     struct no *right;
+    int height;
 }no;
 
+//Altura 
+int height(no *root){ //500
+  int heightAux;
+  if (root == NULL){
+    return -1;
+  }else{
+    int lef = height(root->left);//-1
+    int rig = height(root->right);//-1
+    if(lef > rig){
+      return lef + 1;
+    }
+    return rig + 1;
+  }
+}
+
+
+//Fator de Balanceamento
+int balancingFactor(no *node){
+  if(node){
+    return (height(node->right) - height(node->left));
+  }
+  return 0;
+}
+
+// Rotação à direita
+no* rightRotation(no* y){
+    no* x = y->left;
+    no* T2 = x->right;
+
+    x->right = y;
+    y->left = T2;
+
+    // Atualiza alturas
+    y->height = 1 + max(height(y->left), height(y->right));
+    x->height = 1 + max(height(x->left), height(x->right));
+
+    return x;
+}
+
+// Rotação à esquerda
+no* leftRotation(no* x){
+    no* y = x->right;
+    no* T2 = y->left;
+
+    y->left = x;
+    x->right = T2;
+
+    // Atualiza alturas
+    x->height = 1 + max(height(x->left), height(x->right));
+    y->height = 1 + max(height(y->left), height(y->right));
+
+    return y;
+}
+
+
+//Rotação Dupla - DireitaEsquerda
+no *rightLeftRotation(no *r){
+  r->right = rightRotation(r->right);
+  return leftRotation(r);
+}
+
+//Rotação Dupla - EsquerdaDireita
+no *leftRightRotation(no *r){
+  r->left = leftRotation(r->left);
+  return rightRotation(r);
+}
+
+//Balancear a arvore
+no *balance(no *root){
+  int bf = balancingFactor(root);
+  if(bf < -1 && balancingFactor(root->right) <= 0){
+    root = rightRotation(root);
+  }
+  else if(bf > 1 && balancingFactor(root->left) >= 0){
+    root = leftRotation(root);
+  }
+  else if(bf > 1 && balancingFactor(root->left) < 0){
+    root = leftRightRotation(root);
+  }
+  else if(bf < -1 && balancingFactor(root->right) > 0){
+    root = rightLeftRotation(root);
+  }
+
+  return root;
+}
+
+//Imprimir Arvore InOrder
+void printTreeInOrder(no *root){
+  if(root != NULL){
+    printTreeInOrder(root->left);
+    cout<<root->content<<" ";
+    printTreeInOrder(root->right);
+  }
+}
+
+
+//Inserir elemento na árvore
 no *insert(no *root, int value){
-    if(root=NULL){
-        no *new = (no*) malloc(sizeof(no));
-        new->content = value;
-        new->left = NULL;
-        new->right = NULL;
-        new->height = 0;
-        return new;
+    if(root==NULL){
+        no *newNode = new no();
+        newNode->content = value;
+        newNode->left = NULL;
+        newNode->right = NULL;
+        newNode->height = 0;
+        return newNode;
     }else{
         if(value<root->content){
-            root->left = inser(root->left, value);
+            root->left = insert(root->left, value);
         }
         if(value > root->content){
             root->right = insert(root->right, value);
         }
     }
+
+    root->height = 1 + max(height(root->left), height(root->right));
 
     root = balance(root);
     return root;
@@ -64,8 +164,10 @@ int main(){
 
     cout<<n<<" "<<k<<endl;
     for(int i=0; i<s_numbers.size();i++){
-        insert(no, s_numbers[i]);
+        root = insert(root, s_numbers[i]);
     }
+
+    printTreeInOrder(root);
     vector<int> numbers;
     return 0;
 }
