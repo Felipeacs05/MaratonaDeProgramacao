@@ -14,6 +14,7 @@ typedef struct no{
     int height;
 }no;
 
+
 //Altura 
 int height(no *root){ //500
   int heightAux;
@@ -100,12 +101,13 @@ no *balance(no *root){
   return root;
 }
 
-//Imprimir Arvore InOrder
-void printTreeInOrder(no *root){
+//Imprimir Arvore PreOrder
+void printTreePreOrder(no *root, int value){
   if(root != NULL){
-    printTreeInOrder(root->left);
+    root->content += value;
     cout<<root->content<<" ";
-    printTreeInOrder(root->right);
+    value--;
+    printTreePreOrder(root->left, value);
   }
 }
 
@@ -166,7 +168,7 @@ int main(){
         root = insert(root, s_numbers[i]);
     }
 
-    printTreeInOrder(root);
+    printTreePreOrder(root, k);
     vector<int> numbers;
     return 0;
 }
