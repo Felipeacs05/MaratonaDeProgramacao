@@ -109,7 +109,6 @@ void printTreeInOrder(no *root){
   }
 }
 
-
 //Inserir elemento na árvore
 no *insert(no *root, int value){
     if(root==NULL){
@@ -120,7 +119,7 @@ no *insert(no *root, int value){
         newNode->height = 0;
         return newNode;
     }else{
-        if(value<root->content){
+        if(value<=root->content){
             root->left = insert(root->left, value);
         }
         if(value > root->content){
