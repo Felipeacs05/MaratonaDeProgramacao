@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sstream>
+#include <vector>
+
 using namespace std;
 
 typedef struct no{
@@ -26,12 +29,20 @@ int main(){
     n = f_numbers[0];
     k = f_numbers[1];
 
-    cin.ignore();
-
     string s_line;
-    getline(cinm, s_line);
+    getline(cin, s_line);
+    stringstream ss2(s_line);
 
-    int n, k;
+    vector<int> s_numbers;
+    int num2;
+    while(ss2>>num2){
+        s_numbers.push_back(num2);
+    }
+
+    cout<<n<<" "<<k<<endl;
+    for(int i=0; i<s_numbers.size();i++){
+        cout<<s_numbers[i]<<" ";
+    }
     vector<int> numbers;
     return 0;
 }
